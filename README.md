@@ -1,6 +1,6 @@
 # Granite
 
-**An illustrative concept of an enterprise AI-assistant architecture for a regulated bank.**
+**An interactive walkthrough of an enterprise AI-assistant architecture for a regulated bank.**
 
 Granite is an interactive walkthrough of how you build an AI assistant a large, regulated financial
 institution can actually trust. Pick an example question and trace it through the system — intent
@@ -12,7 +12,7 @@ It answers a two-fold problem: a **user** problem (information fragmented across
 *generated* the architecture rather than merely limiting it).
 
 ## Real vs. simulated
-This is an **illustrative concept**, drawn from real product work and fully sanitized.
+Drawn from real product work and fully sanitized.
 
 - **Real:** the architecture patterns, the design principles, and the regulated-finance reasoning — each
   validated against current research and standards (see the References section on the page).
