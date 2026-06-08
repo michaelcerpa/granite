@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Granite — an illustrative concept for regulated-finance AI</title>
+<meta name="description" content="Granite — an illustrative concept of an enterprise AI-assistant architecture for a regulated bank. Trace a request through the flow and watch it refuse rather than guess. By Michael Cerpa.">
+<meta name="color-scheme" content="dark">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0A1610; --ink:#EAEFE9; --ink-soft:#9DB0A4; --accent:#6FBF93;
+  --panel:#0E1F17; --panel-2:#102419;
+  --cream:#F2EDE1; --on-cream:#16231D; --on-cream-soft:#5E6B62; --accent-deep:#2F6B49;
+  --rule-d:rgba(255,255,255,.10); --rule-c:rgba(0,0,0,.10);
+  /* flow-state hues (mockup-local; mirror the source diagram legend) */
+  --warn:#D8A24A; --fail:#C9594F;
+  --serif:'Fraunces',Georgia,serif; --sans:'Inter',system-ui,sans-serif; --mono:'JetBrains Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-weight:300;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:clip}
+.wrap{max-width:1020px;margin:0 auto;padding:0 40px}
+@media(max-width:560px){.wrap{padding:0 22px}}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent)}
+.kicker{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:9px}
+
+/* illustrative tag */
+.illus{position:fixed;top:14px;right:16px;z-index:80;font-family:var(--mono);font-size:11px;letter-spacing:.04em;
+  color:var(--ink-soft);background:rgba(8,18,13,.7);backdrop-filter:blur(6px);border:1px solid var(--rule-d);
+  padding:5px 11px;border-radius:20px}
+.illus b{color:var(--accent);font-weight:500}
+
+/* hero */
+.hero{min-height:90vh;min-height:90dvh;display:flex;flex-direction:column;justify-content:center;position:relative}
+.hero h1{font-family:var(--serif);font-weight:500;font-size:clamp(34px,5.2vw,58px);line-height:1.05;letter-spacing:-.015em;max-width:18ch;margin-top:18px}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.hero .sub{margin-top:22px;max-width:60ch;font-size:17px;color:var(--ink-soft)}
+.scrollcue{position:absolute;bottom:26px;left:0;width:1px;height:48px;background:var(--rule-d);overflow:hidden}
+.scrollcue::after{content:"";position:absolute;top:0;left:0;width:1px;height:14px;background:var(--accent);animation:flow 1.9s cubic-bezier(.4,0,.2,1) infinite}
+@keyframes flow{0%{transform:translateY(-14px);opacity:0}25%{opacity:1}75%{opacity:1}100%{transform:translateY(48px);opacity:0}}
+
+section.block{padding:60px 0;border-top:1px solid var(--rule-d)}
+.block h2{font-family:var(--serif);font-weight:500;font-size:28px;margin-bottom:8px;letter-spacing:-.01em}
+.block .lead{color:var(--ink-soft);max-width:64ch;font-size:15.5px}
+
+/* reveal on scroll */
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .7s ease,transform .7s ease}
+.reveal.in{opacity:1;transform:none}
+
+/* problem two-fold */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:26px}
+@media(max-width:680px){.two{grid-template-columns:1fr}}
+.pcard{background:var(--panel);border:1px solid var(--rule-d);border-radius:14px;padding:22px}
+.pcard .lab{font-family:var(--mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.pcard h3{font-family:var(--serif);font-weight:500;font-size:19px;margin-bottom:8px}
+.pcard p{color:var(--ink-soft);font-size:14.5px}
+.pcard ul{list-style:none;margin-top:10px;display:flex;flex-direction:column;gap:6px}
+.pcard li{font-size:13.5px;color:var(--ink-soft);padding-left:16px;position:relative}
+.pcard li::before{content:"";position:absolute;left:0;top:9px;width:6px;height:6px;border-radius:50%;background:var(--accent-deep)}
+
+/* ---- the trace / diagram centerpiece ---- */
+.trace-head{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin:24px 0 6px}
+.btn{font-family:var(--mono);font-size:12.5px;border-radius:8px;padding:8px 13px;cursor:pointer;border:1px solid var(--accent);
+  background:var(--accent);color:#06140d;font-weight:500;transition:.15s}
+.btn:hover{filter:brightness(1.07)}
+.btn.ghost{background:transparent;color:var(--accent)}
+.btn.ghost:hover{background:rgba(111,191,147,.1)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 4px}
+.chip{font-family:var(--mono);font-size:12px;border:1px solid var(--rule-d);background:var(--panel);color:var(--ink);
+  border-radius:20px;padding:7px 13px;cursor:pointer;transition:.15s;display:inline-flex;align-items:center;gap:8px}
+.chip:hover{border-color:var(--accent);color:var(--accent)}
+.chip .k{width:7px;height:7px;border-radius:50%;background:var(--ink-soft)}
+.chip[data-path="wire"] .k{background:var(--accent)}
+.chip[data-path="transfers"] .k{background:var(--warn)}
+.chip[data-path="refinance"] .k,.chip[data-path="judge"] .k{background:var(--fail)}
+.legend{display:flex;flex-wrap:wrap;gap:16px;font-family:var(--mono);font-size:11px;color:var(--ink-soft);margin:8px 0 18px}
+.legend i{width:9px;height:9px;border-radius:50%;display:inline-block;margin-right:6px;vertical-align:middle}
+
+.diagram{display:grid;grid-template-columns:1fr 230px;gap:26px;align-items:start;margin-top:6px}
+@media(max-width:760px){.diagram{grid-template-columns:1fr}}
+.spine{display:flex;flex-direction:column;align-items:center}
+.rail{display:flex;flex-direction:column;gap:14px;padding-top:6px}
+@media(max-width:760px){.rail{flex-direction:row;flex-wrap:wrap}}
+
+.node{background:var(--cream);color:var(--on-cream);border-radius:12px;padding:13px 16px;width:100%;max-width:340px;
+  border:2px solid transparent;box-shadow:0 1px 0 rgba(0,0,0,.25);cursor:pointer;transition:transform .15s,box-shadow .25s,border-color .25s;position:relative}
+.node:hover{transform:translateY(-1px)}
+.node .nlab{font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--accent-deep)}
+.node .ntitle{font-family:var(--serif);font-weight:600;font-size:16px;line-height:1.2;margin-top:2px}
+.node .nsub{font-size:12px;color:var(--on-cream-soft);margin-top:3px}
+.node .info{position:absolute;top:11px;right:13px;font-family:var(--mono);font-size:11px;color:var(--on-cream-soft);opacity:.6}
+.node.active{border-color:var(--accent);box-shadow:0 0 0 4px rgba(111,191,147,.22),0 0 22px rgba(111,191,147,.35)}
+.node.warn{border-color:var(--warn);box-shadow:0 0 0 4px rgba(216,162,74,.2),0 0 18px rgba(216,162,74,.3)}
+.node.fail{border-color:var(--fail);box-shadow:0 0 0 4px rgba(201,89,79,.22),0 0 20px rgba(201,89,79,.35)}
+.node.dim{opacity:.4;filter:saturate(.7)}
+
+.connector{width:2px;height:26px;background:var(--rule-d);transition:background .2s,box-shadow .2s}
+.connector.on{background:var(--accent);box-shadow:0 0 8px rgba(111,191,147,.6)}
+.lanes{display:flex;gap:12px;width:100%;max-width:340px;justify-content:center}
+.lanes .node{max-width:none;flex:1}
+
+.rail .node{max-width:none}
+.rail .rlab{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);margin-bottom:-6px}
+.node.side{background:var(--panel);color:var(--ink);border:1px dashed var(--rule-d)}
+.node.side .ntitle{color:var(--ink);font-size:15px}
+.node.side .nlab{color:var(--ink-soft)}
+.node.side .nsub{color:var(--ink-soft)}
+.node.side.fail{border-style:solid}
+.node.side.warn{border-style:solid}
+
+/* outcome panel */
+.outcome{margin-top:24px;min-height:10px}
+.out{border-radius:12px;padding:16px 18px;border-left:4px solid var(--accent);background:var(--panel);animation:pop .35s ease}
+.out.clarify{border-left-color:var(--warn)}
+.out.refuse{border-left-color:var(--fail)}
+.out .ol{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+.out.clarify .ol{color:var(--warn)} .out.refuse .ol{color:var(--fail)}
+.out .ot{font-size:15.5px;color:var(--ink)}
+.out .oq{font-family:var(--mono);font-size:12px;color:var(--ink-soft);margin-bottom:8px}
+@keyframes pop{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.caption{font-family:var(--mono);font-size:12.5px;color:var(--accent);min-height:20px;margin-top:14px}
+
+/* detail drawer */
+.scrim{position:fixed;inset:0;background:rgba(6,12,9,.6);backdrop-filter:blur(2px);opacity:0;pointer-events:none;transition:.25s;z-index:90}
+.scrim.open{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;height:100%;width:min(420px,92vw);background:var(--cream);color:var(--on-cream);
+  z-index:95;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);padding:26px 26px 40px;overflow-y:auto;box-shadow:-12px 0 40px rgba(0,0,0,.4)}
+.drawer.open{transform:none}
+.drawer .dlab{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent-deep)}
+.drawer h3{font-family:var(--serif);font-weight:600;font-size:23px;margin:4px 0 14px}
+.drawer .x{position:absolute;top:18px;right:20px;background:none;border:0;font-size:26px;line-height:1;cursor:pointer;color:var(--on-cream-soft)}
+.drawer p{font-size:14.5px;color:var(--on-cream);margin-bottom:14px}
+.drawer .exbox{background:rgba(0,0,0,.05);border:1px solid var(--rule-c);border-radius:9px;padding:12px 13px;margin-bottom:16px}
+.drawer .exbox .exl{font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--on-cream-soft);margin-bottom:5px}
+.drawer .exbox .ext{font-family:var(--mono);font-size:12.5px;color:var(--on-cream);line-height:1.5}
+.drawer .gl{font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--on-cream-soft);margin-bottom:8px}
+.gchips{display:flex;flex-wrap:wrap;gap:7px}
+.gchip{font-family:var(--mono);font-size:11.5px;background:var(--accent-deep);color:#fff;border-radius:16px;padding:5px 11px}
+
+/* close */
+.why{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-top:24px}
+@media(max-width:680px){.why{grid-template-columns:1fr}}
+.why .w{background:var(--panel);border:1px solid var(--rule-d);border-radius:12px;padding:18px}
+.why .w .wl{font-family:var(--mono);font-size:11px;color:var(--accent);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px}
+.why .w p{font-size:14px;color:var(--ink-soft)}
+footer{border-top:1px solid var(--rule-d);padding:34px 0;margin-top:30px}
+footer .fl{font-family:var(--mono);font-size:12px;color:var(--ink-soft);opacity:.75}
+
+/* references */
+.refs{display:grid;grid-template-columns:1fr 1fr;gap:0 26px;margin-top:18px}
+@media(max-width:680px){.refs{grid-template-columns:1fr}}
+.refs a{font-family:var(--mono);font-size:12px;color:var(--ink-soft);text-decoration:none;padding:9px 0;
+  border-bottom:1px solid var(--rule-d);display:block;transition:color .15s}
+.refs a:hover{color:var(--accent)}
+.refs a span{color:var(--accent);margin-right:9px}
+
+/* keyboard focus */
+.chip:focus-visible,.node:focus-visible,.btn:focus-visible,.refs a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+@media(prefers-reduced-motion:reduce){
+  .reveal{opacity:1;transform:none;transition:none}
+  .scrollcue::after{animation:none;top:17px}
+  .out{animation:none}
+}
+</style>
+</head>
+<body>
+<div class="illus"><b>Illustrative concept</b> · Granite</div>
+
+<header class="hero wrap">
+  <div class="eyebrow">Enterprise AI · regulated finance</div>
+  <h1>AI a bank can <em>trust</em> — built for the constraints, not in spite of them.</h1>
+  <p class="sub">Granite is an illustrative concept of an enterprise assistant for a large regulated bank. Trace a real request through the architecture — and watch it refuse rather than guess.</p>
+  <a class="scrollcue" href="#problem" aria-label="scroll"></a>
+</header>
+
+<main>
+<section class="block wrap" id="problem">
+  <div class="reveal">
+    <div class="kicker">The problem, two-fold</div>
+    <h2>Why it exists — and why it's built this way</h2>
+    <p class="lead">One half says the product should exist. The other half shaped every architectural choice.</p>
+  </div>
+  <div class="two">
+    <div class="pcard reveal">
+      <div class="lab">A · User problem</div>
+      <h3>Workflow collapse</h3>
+      <p>Routine answers live across a modern platform and legacy systems — behind menus, in inconsistent language. Every lookup costs <em>time</em> and <em>certainty</em>.</p>
+      <ul><li>Multi-step navigation across systems</li><li>Hesitation when the same thing is named differently</li></ul>
+    </div>
+    <div class="pcard reveal">
+      <div class="lab">B · Environment problem</div>
+      <h3>Regulated &amp; archaic</h3>
+      <p>The constraint space that <em>generated</em> the design — not a footnote to it.</p>
+      <ul><li>Regulated: a wrong answer is a trust/compliance event; access controlled &amp; auditable</li><li>Archaic: legacy, fragmented data you can't rebuild</li></ul>
+    </div>
+  </div>
+</section>
+
+<section class="block wrap">
+  <div class="reveal">
+    <div class="kicker">The architecture · trace a request</div>
+    <h2>Fire a request. Watch it flow — or get caught.</h2>
+    <p class="lead">The organizing principle is "a wrong answer is worse than no answer." Pick an example and watch the system proceed, ask, or refuse. Click any node to open it.</p>
+  </div>
+
+  <div class="trace-head reveal">
+    <button class="btn" id="walkBtn">▶ Walk me through it</button>
+    <button class="btn ghost" id="resetBtn">Reset</button>
+  </div>
+  <div class="chips reveal">
+    <span class="chip" data-path="wire"><i class="k"></i>"Status of my wire to Acme Corp?"</span>
+    <span class="chip" data-path="transfers"><i class="k"></i>"Show me my transfers"</span>
+    <span class="chip" data-path="refinance"><i class="k"></i>"Should I refinance my mortgage?"</span>
+    <span class="chip" data-path="judge"><i class="k"></i>A draft that fails the judge</span>
+  </div>
+  <div class="legend reveal">
+    <span><i style="background:var(--accent)"></i>proceed</span>
+    <span><i style="background:var(--warn)"></i>disambiguate (70–85%)</span>
+    <span><i style="background:var(--fail)"></i>fail-closed → refuse</span>
+  </div>
+
+  <div class="diagram reveal">
+    <div class="spine">
+      <div class="node" data-node="chat"><div class="nlab">overlay</div><div class="ntitle">Chat UI</div><div class="nsub">ask · answer, inline</div><span class="info">＋</span></div>
+      <div class="connector" data-c="chat"></div>
+      <div class="node" data-node="orchestration"><div class="nlab">control plane</div><div class="ntitle">Orchestration</div><div class="nsub">router · session · assembly · audit</div><span class="info">＋</span></div>
+      <div class="connector" data-c="orchestration"></div>
+      <div class="node" data-node="intent"><div class="nlab">LLM + confidence</div><div class="ntitle">Intent classification</div><div class="nsub">label + score → route</div><span class="info">＋</span></div>
+      <div class="connector" data-c="intent"></div>
+      <div class="node" data-node="entitlements"><div class="nlab">hard gate</div><div class="ntitle">Entitlements</div><div class="nsub">existing engine · audit-logged</div><span class="info">＋</span></div>
+      <div class="connector" data-c="entitlements"></div>
+      <div class="node" data-node="supervisor"><div class="nlab">deterministic</div><div class="ntitle">Supervisor</div><div class="nsub">intent → lane(s)</div><span class="info">＋</span></div>
+      <div class="connector" data-c="supervisor"></div>
+      <div class="lanes">
+        <div class="node" data-node="payments"><div class="nlab">hybrid</div><div class="ntitle">Payments</div><div class="nsub">API + RAG + synthesis</div><span class="info">＋</span></div>
+        <div class="node" data-node="help"><div class="nlab">generative</div><div class="ntitle">Help &amp; Servicing</div><div class="nsub">RAG over docs</div><span class="info">＋</span></div>
+      </div>
+      <div class="connector" data-c="lanes"></div>
+      <div class="node" data-node="critique"><div class="nlab">LLM-as-judge</div><div class="ntitle">Critique agent</div><div class="nsub">different model · pass / fail</div><span class="info">＋</span></div>
+      <div class="connector" data-c="critique"></div>
+      <div class="node" data-node="assembly"><div class="nlab">merge</div><div class="ntitle">Response assembly</div><div class="nsub">one coherent answer → chat</div><span class="info">＋</span></div>
+    </div>
+    <div class="rail">
+      <div class="rlab">off the main path</div>
+      <div class="node side" data-node="disambig"><div class="nlab">70–85%</div><div class="ntitle">Disambiguation</div><div class="nsub">"did you mean…?"</div><span class="info">＋</span></div>
+      <div class="node side" data-node="canned"><div class="nlab">fail-closed sink</div><div class="ntitle">Canned response</div><div class="nsub">refuse, never guess</div><span class="info">＋</span></div>
+      <div class="node side" data-node="telemetry"><div class="nlab">passive</div><div class="ntitle">Telemetry</div><div class="nsub">audit · next eval set</div><span class="info">＋</span></div>
+    </div>
+  </div>
+
+  <div class="caption" id="caption"></div>
+  <div class="outcome" id="outcome"></div>
+</section>
+
+<section class="block wrap">
+  <div class="reveal">
+    <div class="kicker">Why it matters</div>
+    <h2>Matching mechanism to risk</h2>
+    <p class="lead">The value isn't autonomy or cleverness. It's solving a real problem inside real constraints without ever risking a wrong answer.</p>
+  </div>
+  <div class="why">
+    <div class="w reveal"><div class="wl">Restraint</div><p>Least-agentic routing, deterministic data, refuse-over-guess. The discipline is in what it <em>doesn't</em> do.</p></div>
+    <div class="w reveal"><div class="wl">Tradeoffs, owned</div><p>A higher refusal rate, deterministic over agentic, no human on the live path — each the right trade for this environment.</p></div>
+    <div class="w reveal"><div class="wl">Honest edges</div><p>What we'd harden next: continuous calibration, deterministic figure rendering, judge-bias controls.</p></div>
+  </div>
+</section>
+<section class="block wrap" id="references">
+  <div class="reveal">
+    <div class="kicker">Grounded in</div>
+    <h2>References</h2>
+    <p class="lead">The architecture is validated against current research and standards — not asserted. Selected sources:</p>
+  </div>
+  <div class="refs reveal">
+    <a href="https://www.anthropic.com/research/building-effective-agents" target="_blank" rel="noopener"><span>↗</span>Anthropic — Building Effective Agents</a>
+    <a href="https://developers.openai.com/api/docs/guides/evaluation-best-practices" target="_blank" rel="noopener"><span>↗</span>OpenAI — Evaluation best practices</a>
+    <a href="https://arxiv.org/abs/2410.21819" target="_blank" rel="noopener"><span>↗</span>Self-Preference Bias in LLM-as-a-Judge (arXiv:2410.21819)</a>
+    <a href="https://arxiv.org/abs/2407.18418" target="_blank" rel="noopener"><span>↗</span>A Survey of Abstention in LLMs (arXiv:2407.18418)</a>
+    <a href="https://arxiv.org/abs/2311.15548" target="_blank" rel="noopener"><span>↗</span>LLM Hallucination in Finance (arXiv:2311.15548)</a>
+    <a href="https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence" target="_blank" rel="noopener"><span>↗</span>NIST AI RMF — Generative AI Profile (NIST-AI-600-1)</a>
+    <a href="https://genai.owasp.org/llmrisk/llm092025-misinformation/" target="_blank" rel="noopener"><span>↗</span>OWASP — LLM09:2025 Misinformation</a>
+    <a href="https://air-governance-framework.finos.org/risks/ri-4_hallucination-and-inaccurate-outputs.html" target="_blank" rel="noopener"><span>↗</span>FINOS — AI Governance Framework (hallucination)</a>
+    <a href="https://www.osohq.com/post/right-approach-to-authorization-in-rag" target="_blank" rel="noopener"><span>↗</span>Oso — The Right Approach to Authorization in RAG</a>
+    <a href="https://opensource.microsoft.com/blog/2026/05/14/conductor-deterministic-orchestration-for-multi-agent-ai-workflows/" target="_blank" rel="noopener"><span>↗</span>Microsoft — Conductor: deterministic orchestration</a>
+  </div>
+</section>
+</main>
+
+<footer class="wrap"><div class="fl">Illustrative concept by Michael Cerpa · patterns are real, plumbing is simulated</div></footer>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-hidden="true">
+  <button class="x" id="drawerX" aria-label="close">×</button>
+  <div class="dlab" id="dLab"></div>
+  <h3 id="dTitle"></h3>
+  <p id="dPlain"></p>
+  <div class="exbox"><div class="exl">Banking example</div><div class="ext" id="dEx"></div></div>
+  <div id="dGlWrap"><div class="gl">Glossary</div><div class="gchips" id="dGl"></div></div>
+</aside>
+
+<script>
+const REDUCE = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+const NODES = {
+  chat:{lab:'overlay',title:'Chat UI',plain:'The assistant overlay where the user asks and the answer renders inline — no new tab, no system-switching.',ex:'A treasury analyst types "status of my wire to Acme Corp?" without leaving the page.',gl:[]},
+  orchestration:{lab:'control plane',title:'Orchestration',plain:'The control plane between the UI and the AI pipeline: routing, session state, response assembly, and logging every request. Not the AI itself.',ex:'Carries the ask through the pipeline and returns one assembled answer to the chat.',gl:['Orchestration layer','Context layer']},
+  intent:{lab:'LLM + confidence',title:'Intent classification',plain:'An LLM classifies the ask and returns a confidence score the router acts on: proceed, clarify, or refuse.',ex:'"status of my wire to Acme Corp" → intent: payment_status · confidence: 0.93',gl:['Intent classification','Confidence-driven routing']},
+  entitlements:{lab:'hard gate',title:'Entitlements check',plain:"A hard authorization gate that reuses the bank's existing engine. Data the user can't see never reaches synthesis.",ex:"Confirms this analyst may see Acme Corp's wire activity before anything is retrieved.",gl:['Entitlements check']},
+  supervisor:{lab:'deterministic',title:'Supervisor',plain:'A deterministic router: intent → the right domain lane (or both, for a compound ask). The least-agentic design that solves the problem.',ex:'payment_status → Payments lane.',gl:['Supervisor agent','Agent spectrum']},
+  payments:{lab:'hybrid',title:'Payments lane',plain:'Hybrid: a deterministic API is the source of truth for figures; RAG adds the bank’s vocabulary; the LLM only frames — it never computes the number.',ex:'API: {Acme Corp, $250,000.00, settled} → "Your $250,000 wire to Acme Corp settled yesterday."',gl:['RAG','Deterministic vs generative']},
+  help:{lab:'generative',title:'Help & Servicing lane',plain:'Fully generative over RAG of product docs — for "how does this work / where do I find X" questions.',ex:'"same-day ACH cutoff?" → "Submitted before 2:45pm ET, processed the same business day."',gl:['RAG','Vector store']},
+  critique:{lab:'LLM-as-judge',title:'Critique agent',plain:'An LLM-as-judge — a different model than the one that wrote the answer — scores it against a rubric. A fail routes to the canned response.',ex:'Checks the synthesized figure against the API source; the number and status match → pass.',gl:['LLM-as-judge','Evals']},
+  assembly:{lab:'merge',title:'Response assembly',plain:'Merges lane outputs into one coherent answer and returns it through orchestration to the chat.',ex:'For a compound ask, merges the wire status + the ACH explanation into one reply.',gl:['Orchestration layer']},
+  disambig:{lab:'70–85%',title:'Disambiguation',plain:'When confidence is middling (≈70–85%), the system asks a clarifying question instead of guessing.',ex:'"show me my transfers" (0.78) → "Wires, ACH, or internal transfers?"',gl:['Confidence-driven routing']},
+  canned:{lab:'fail-closed sink',title:'Canned response',plain:'The single safe landing for every failure — low confidence, a judge fail, or a downstream error. Never a hallucinated answer.',ex:'"I can’t help with that — here’s what I can do."',gl:[]},
+  telemetry:{lab:'passive',title:'Telemetry',plain:'Every request, refusal, and disambiguation is logged — for audit and as the dataset for the next tuning round. Passive, off the request path.',ex:'Logs the 0.78 disambiguation as a future eval case.',gl:['Evals']}
+};
+
+const PATHS = {
+  wire:{steps:['chat','orchestration','intent','entitlements','supervisor','payments','critique','assembly'],
+        caps:['User asks, inline','Orchestration takes it','intent: payment_status · 0.93 → proceed','Entitled? yes','Route → Payments','API is source of truth; LLM only frames','Judge checks the figure → pass','One answer, back to chat'],
+        outcome:{kind:'answer',label:'Delivered',text:'Your $250,000 wire to Acme Corp settled yesterday (Jun 6).'}},
+  transfers:{steps:['chat','orchestration','intent','disambig'],
+        caps:['User asks, inline','Orchestration takes it','intent: transfers · 0.78','70–85% → ask, don’t guess'],
+        outcome:{kind:'clarify',label:'Disambiguation',q:'confidence 0.78 — in the 70–85% band',text:'Did you mean wires, ACH, or internal transfers?'}},
+  refinance:{steps:['chat','orchestration','intent','canned'],
+        caps:['User asks, inline','Orchestration takes it','intent: out_of_scope · 0.41','<70% → fail-closed'],
+        outcome:{kind:'refuse',label:'Refused · fail-closed',q:'confidence 0.41 — below the floor',text:"I can’t help with that — here’s what I can do: payment status, account details, and product questions."}},
+  judge:{steps:['chat','orchestration','intent','entitlements','supervisor','payments','critique','canned'],
+        caps:['User asks, inline','Orchestration takes it','intent: payment_status · 0.91 → proceed','Entitled? yes','Route → Payments','Draft answer synthesized','Judge catches a mismatch → fail','Held back, not shown'],
+        outcome:{kind:'refuse',label:'Refused · judge caught it',q:'critique agent failed the draft',text:"A draft answer didn’t pass the accuracy check, so it was held back rather than risk a wrong number."}}
+};
+
+const CABOVE={orchestration:'chat',intent:'orchestration',entitlements:'intent',supervisor:'entitlements',payments:'supervisor',help:'supervisor',critique:'lanes',assembly:'critique'};
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+let timers=[];
+function clearTrace(){
+  timers.forEach(clearTimeout); timers=[];
+  $$('.node').forEach(n=>n.classList.remove('active','warn','fail','dim'));
+  $$('.connector').forEach(c=>c.classList.remove('on'));
+  $('#outcome').innerHTML=''; $('#caption').textContent='';
+}
+function showOutcome(o){
+  const cls=o.kind==='answer'?'':o.kind;
+  $('#outcome').innerHTML=`<div class="out ${cls}"><div class="ol">${o.label}</div>${o.q?`<div class="oq">${o.q}</div>`:''}<div class="ot">${o.text}</div></div>`;
+}
+function stateFor(id){return id==='disambig'?'warn':id==='canned'?'fail':'active';}
+function runTrace(key,{walk=false}={}){
+  clearTrace();
+  const p=PATHS[key]; if(!p)return;
+  const step=REDUCE?0:(walk?780:430);
+  p.steps.forEach((id,i)=>{
+    timers.push(setTimeout(()=>{
+      const node=document.querySelector(`.node[data-node="${id}"]`);
+      if(node)node.classList.add(stateFor(id));
+      // light the connector leading into spine nodes
+      const c=document.querySelector(`.connector[data-c="${CABOVE[id]}"]`);
+      if(c)c.classList.add('on');
+      if(walk||REDUCE){const cap=$('#caption'); if(cap&&p.caps[i])cap.textContent=p.caps[i];}
+    },step*i));
+  });
+  timers.push(setTimeout(()=>{showOutcome(p.outcome); if(!walk)$('#caption').textContent='';}, step*p.steps.length+ (REDUCE?0:120)));
+}
+
+// a11y: make non-button interactive elements keyboard-operable
+function a11y(el){el.setAttribute('tabindex','0');el.setAttribute('role','button');
+  el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();el.click();}});}
+// chips + buttons
+$$('.chip').forEach(ch=>{ch.addEventListener('click',()=>runTrace(ch.dataset.path));a11y(ch);});
+$('#walkBtn').addEventListener('click',()=>runTrace('wire',{walk:true}));
+$('#resetBtn').addEventListener('click',clearTrace);
+
+// drawer
+function openNode(id){
+  const d=NODES[id]; if(!d)return;
+  $('#dLab').textContent=d.lab; $('#dTitle').textContent=d.title; $('#dPlain').textContent=d.plain; $('#dEx').textContent=d.ex;
+  const glWrap=$('#dGlWrap');
+  if(d.gl.length){glWrap.style.display='block';$('#dGl').innerHTML=d.gl.map(g=>`<span class="gchip">${g}</span>`).join('');}
+  else glWrap.style.display='none';
+  $('#drawer').classList.add('open'); $('#drawer').setAttribute('aria-hidden','false'); $('#scrim').classList.add('open');
+}
+function closeDrawer(){$('#drawer').classList.remove('open');$('#drawer').setAttribute('aria-hidden','true');$('#scrim').classList.remove('open');}
+$$('.node').forEach(n=>{n.addEventListener('click',()=>openNode(n.dataset.node));a11y(n);});
+$('#drawerX').addEventListener('click',closeDrawer);
+$('#scrim').addEventListener('click',closeDrawer);
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDrawer();});
+
+// scroll reveal
+const io=new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.12});
+$$('.reveal').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

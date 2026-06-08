@@ -1,0 +1,12 @@
+# Throwaway mockup — never ships
+_scratch/
+
+# Working docs — kept LOCAL, not published.
+# research-plan.md in particular holds the real→sanitized name map; it must never go public.
+research-plan.md
+research-notes.md
+narrative.md
+SPEC.md
+design-discovery.md
+
+.DS_Store
