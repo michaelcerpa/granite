@@ -37,9 +37,6 @@ h1,h2,h3,p,.lead,.sub,.ntitle,.nsub,.ot,.oq{overflow-wrap:break-word}
 .hero h1{font-family:var(--serif);font-weight:500;font-size:clamp(28px,5vw,52px);line-height:1.07;letter-spacing:-.015em;max-width:20ch;margin-top:18px}
 .hero h1 em{font-style:italic;color:var(--accent)}
 .hero .sub{margin-top:22px;max-width:60ch;font-size:17px;color:var(--ink-soft)}
-.scrollcue{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);width:1px;height:48px;background:var(--rule-d);overflow:hidden}
-.scrollcue::after{content:"";position:absolute;top:0;left:0;width:1px;height:14px;background:var(--accent);animation:flow 1.9s cubic-bezier(.4,0,.2,1) infinite}
-@keyframes flow{0%{transform:translateY(-14px);opacity:0}25%{opacity:1}75%{opacity:1}100%{transform:translateY(48px);opacity:0}}
 
 section.block{padding-top:60px;padding-bottom:60px;border-top:1px solid var(--rule-d)}
 .block h2{font-family:var(--serif);font-weight:500;font-size:28px;margin-bottom:8px;letter-spacing:-.01em}
@@ -161,7 +158,6 @@ footer .fl{font-family:var(--mono);font-size:12px;color:var(--ink-soft);opacity:
 
 @media(prefers-reduced-motion:reduce){
   .reveal{opacity:1;transform:none;transition:none}
-  .scrollcue::after{animation:none;top:17px}
   .out{animation:none}
 }
 </style>
@@ -171,7 +167,6 @@ footer .fl{font-family:var(--mono);font-size:12px;color:var(--ink-soft);opacity:
   <div class="eyebrow">Enterprise AI · regulated finance</div>
   <h1>AI a bank can <em>trust</em> — built for the constraints, not in spite of them.</h1>
   <p class="sub">Granite is an illustrative concept of an enterprise assistant for a large regulated bank. Trace a real request through the architecture — and watch it refuse rather than guess.</p>
-  <a class="scrollcue" href="#problem" aria-label="scroll"></a>
 </header>
 
 <main>
