@@ -249,7 +249,7 @@ footer .fl{font-family:var(--mono);font-size:12px;color:var(--ink-soft);opacity:
         <div class="node" data-node="help"><div class="nlab">generative</div><div class="ntitle">Help &amp; Servicing</div><div class="nsub">RAG over docs</div><span class="info">＋</span></div>
       </div>
       <div class="connector" data-c="lanes"></div>
-      <div class="node" data-node="critique"><div class="nlab">LLM-as-judge</div><div class="ntitle">Critique agent</div><div class="nsub">different model · pass / fail</div><span class="info">＋</span></div>
+      <div class="node" data-node="critique"><div class="nlab">LLM-as-a-judge</div><div class="ntitle">Critique agent</div><div class="nsub">different model · pass / fail</div><span class="info">＋</span></div>
       <div class="connector" data-c="critique"></div>
       <div class="node" data-node="assembly"><div class="nlab">merge</div><div class="ntitle">Response assembly</div><div class="nsub">one coherent answer → chat</div><span class="info">＋</span></div>
     </div>
@@ -321,7 +321,7 @@ const NODES = {
   supervisor:{lab:'deterministic',title:'Supervisor',plain:'A deterministic router: intent → the right domain lane (or both, for a compound ask). The least-agentic design that solves the problem.',ex:'payment_status → Payments lane.',gl:['Supervisor agent','Agent spectrum']},
   payments:{lab:'hybrid',title:'Payments lane',plain:'Hybrid: a deterministic API is the source of truth for figures; RAG adds the bank’s vocabulary; the LLM only frames — it never computes the number.',ex:'API: {Acme Corp, $250,000.00, settled} → "Your $250,000 wire to Acme Corp settled yesterday."',gl:['RAG','Deterministic vs generative']},
   help:{lab:'generative',title:'Help & Servicing lane',plain:'Fully generative over RAG of product docs — for "how does this work / where do I find X" questions.',ex:'"same-day ACH cutoff?" → "Submitted before 2:45pm ET, processed the same business day."',gl:['RAG','Vector store']},
-  critique:{lab:'LLM-as-judge',title:'Critique agent',plain:'An LLM-as-judge — a different model than the one that wrote the answer — scores it against a rubric. A fail routes to the canned response.',ex:'Checks the synthesized figure against the API source; the number and status match → pass.',gl:['LLM-as-judge','Evals']},
+  critique:{lab:'LLM-as-a-judge',title:'Critique agent',plain:'An LLM-as-a-judge — a different model than the one that wrote the answer — scores it against a rubric. A fail routes to the canned response.',ex:'Checks the synthesized figure against the API source; the number and status match → pass.',gl:['LLM-as-a-judge','Evals']},
   assembly:{lab:'merge',title:'Response assembly',plain:'Merges lane outputs into one coherent answer and returns it through orchestration to the chat.',ex:'For a compound ask, merges the wire status + the ACH explanation into one reply.',gl:['Orchestration layer']},
   disambig:{lab:'70–85%',title:'Disambiguation',plain:'When confidence is middling (≈70–85%), the system asks a clarifying question instead of guessing.',ex:'"show me my transfers" (0.78) → "Wires, ACH, or internal transfers?"',gl:['Confidence-driven routing']},
   canned:{lab:'fail-closed sink',title:'Canned response',plain:'The single safe landing for every failure — low confidence, a judge fail, or a downstream error. Never a hallucinated answer.',ex:'"I can’t help with that — here’s what I can do."',gl:[]},
