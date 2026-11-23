@@ -3,24 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Granite - an interactive architecture for regulated-finance AI</title>
-<meta name="description" content="Granite - an interactive walkthrough of an enterprise AI-assistant architecture for a regulated bank. Trace a request through the flow and watch it refuse rather than guess. By Michael Cerpa.">
+<title>Granite: how I'd build an AI assistant for a bank</title>
+<meta name="description" content="Granite is a concept for an AI assistant at a large regulated bank. Follow a question through the system and watch it refuse instead of guessing. By Michael Cerpa.">
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#0A1610">
 <link rel="icon" type="image/png" sizes="48x48" href="favicon.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Granite">
-<meta property="og:title" content="Granite - an interactive architecture for regulated-finance AI">
-<meta property="og:description" content="Trace a real request through the architecture - and watch it refuse rather than guess. Research backed. By Michael Cerpa.">
+<meta property="og:title" content="Granite: how I'd build an AI assistant for a bank">
+<meta property="og:description" content="Follow a question through the system and watch it refuse instead of guessing. By Michael Cerpa.">
 <meta property="og:url" content="https://mcerpa.com/granite/">
 <link rel="canonical" href="https://mcerpa.com/granite/">
 <meta property="og:image" content="https://granite-gilt-zeta.vercel.app/og.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Granite - an interactive architecture for regulated-finance AI">
-<meta name="twitter:description" content="Trace a real request through the architecture - and watch it refuse rather than guess. Research backed. By Michael Cerpa.">
+<meta name="twitter:title" content="Granite: how I'd build an AI assistant for a bank">
+<meta name="twitter:description" content="Follow a question through the system and watch it refuse instead of guessing. By Michael Cerpa.">
 <meta name="twitter:image" content="https://granite-gilt-zeta.vercel.app/og.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -181,39 +181,39 @@ footer .fl{font-family:var(--mono);font-size:12px;color:var(--ink-soft);opacity:
 </head>
 <body>
 <header class="hero wrap">
-  <div class="eyebrow">Enterprise AI · regulated finance</div>
-  <h1>AI a bank can <em>trust</em> — built for the constraints, not in spite of them.</h1>
-  <p class="sub">Granite is an illustrative concept of an enterprise assistant for a large regulated bank. Trace a real request through the architecture — and watch it refuse rather than guess.</p>
+  <div class="eyebrow">AI for a regulated bank</div>
+  <h1>An AI assistant a bank can <em>trust</em>.</h1>
+  <p class="sub">Granite is a concept, not a product. It shows how I'd design an assistant for a large bank. Pick a question and follow it through the system. When it isn't sure, it refuses instead of guessing.</p>
 </header>
 
 <main>
 <section class="block wrap" id="problem">
   <div class="reveal">
-    <div class="kicker">The problem, two-fold</div>
-    <h2>Why it exists — and why it's built this way</h2>
-    <p class="lead">One half says the product should exist. The other half shaped every architectural choice.</p>
+    <div class="kicker">Two problems</div>
+    <h2>Why it exists, and why it's built this way</h2>
+    <p class="lead">The first problem is why it should exist. The second shaped how it's built.</p>
   </div>
   <div class="two">
     <div class="pcard reveal">
-      <div class="lab">A · User problem</div>
-      <h3>Workflow collapse</h3>
-      <p>Routine answers live across a modern platform and legacy systems — behind menus, in inconsistent language. Every lookup costs <em>time</em> and <em>certainty</em>.</p>
-      <ul><li>Multi-step navigation across systems</li><li>Hesitation when the same thing is named differently</li></ul>
+      <div class="lab">A · The user's problem</div>
+      <h3>Too many systems</h3>
+      <p>A routine answer can live in a new platform, an old system, or both. It sits behind menus, and each system names things differently. Every lookup costs time and leaves people unsure they found the right thing.</p>
+      <ul><li>Several steps across several systems</li><li>The same thing has different names in different places</li></ul>
     </div>
     <div class="pcard reveal">
-      <div class="lab">B · Environment problem</div>
-      <h3>Regulated &amp; archaic</h3>
-      <p>The constraint space that <em>generated</em> the design — not a footnote to it.</p>
-      <ul><li>Regulated: a wrong answer is a trust/compliance event; access controlled &amp; auditable</li><li>Archaic: legacy, fragmented data you can't rebuild</li></ul>
+      <div class="lab">B · The bank's problem</div>
+      <h3>Regulated and old</h3>
+      <p>These two facts shaped the whole design.</p>
+      <ul><li>Regulated: a wrong answer is a compliance problem. Who can see what is controlled, and everything is logged.</li><li>Old: the data is spread across legacy systems, and you can't rebuild them.</li></ul>
     </div>
   </div>
 </section>
 
 <section class="block wrap">
   <div class="reveal">
-    <div class="kicker">The architecture · trace a request</div>
-    <h2>Fire a request. Watch it flow — or get caught.</h2>
-    <p class="lead">The organizing principle is "a wrong answer is worse than no answer." Pick an example and watch the system proceed, ask, or refuse. Click any node to open it.</p>
+    <div class="kicker">The design · follow a question</div>
+    <h2>Follow a question through the system</h2>
+    <p class="lead">The whole design follows one rule: a wrong answer is worse than no answer. Pick an example. The system will answer, ask you a question, or refuse. Click any box to see what it does.</p>
   </div>
 
   <div class="trace-head reveal">
@@ -224,40 +224,40 @@ footer .fl{font-family:var(--mono);font-size:12px;color:var(--ink-soft);opacity:
     <span class="chip" data-path="wire"><i class="k"></i>"Status of my wire to Acme Corp?"</span>
     <span class="chip" data-path="transfers"><i class="k"></i>"Show me my transfers"</span>
     <span class="chip" data-path="refinance"><i class="k"></i>"Should I refinance my mortgage?"</span>
-    <span class="chip" data-path="judge"><i class="k"></i>A draft that fails the judge</span>
+    <span class="chip" data-path="judge"><i class="k"></i>An answer that fails the check</span>
   </div>
   <div class="legend reveal">
-    <span><i style="background:var(--accent)"></i>proceed</span>
-    <span><i style="background:var(--warn)"></i>disambiguate (70–85%)</span>
-    <span><i style="background:var(--fail)"></i>fail-closed → refuse</span>
+    <span><i style="background:var(--accent)"></i>answers</span>
+    <span><i style="background:var(--warn)"></i>asks first (70–85% sure)</span>
+    <span><i style="background:var(--fail)"></i>refuses</span>
   </div>
 
   <div class="diagram reveal">
     <div class="spine">
-      <div class="node" data-node="chat"><div class="nlab">overlay</div><div class="ntitle">Chat UI</div><div class="nsub">ask · answer, inline</div><span class="info">＋</span></div>
+      <div class="node" data-node="chat"><div class="nlab">on the page</div><div class="ntitle">Chat window</div><div class="nsub">ask and get the answer in place</div><span class="info">＋</span></div>
       <div class="connector" data-c="chat"></div>
-      <div class="node" data-node="orchestration"><div class="nlab">control plane</div><div class="ntitle">Orchestration</div><div class="nsub">router · session · assembly · audit</div><span class="info">＋</span></div>
+      <div class="node" data-node="orchestration"><div class="nlab">orchestration</div><div class="ntitle">Coordinator</div><div class="nsub">routes, tracks, assembles, logs</div><span class="info">＋</span></div>
       <div class="connector" data-c="orchestration"></div>
-      <div class="node" data-node="intent"><div class="nlab">LLM + confidence</div><div class="ntitle">Intent classification</div><div class="nsub">label + score → route</div><span class="info">＋</span></div>
+      <div class="node" data-node="intent"><div class="nlab">intent</div><div class="ntitle">What are they asking?</div><div class="nsub">a label and a score pick the route</div><span class="info">＋</span></div>
       <div class="connector" data-c="intent"></div>
-      <div class="node" data-node="entitlements"><div class="nlab">hard gate</div><div class="ntitle">Entitlements</div><div class="nsub">existing engine · audit-logged</div><span class="info">＋</span></div>
+      <div class="node" data-node="entitlements"><div class="nlab">entitlements</div><div class="ntitle">Permissions</div><div class="nsub">the bank's existing system · logged</div><span class="info">＋</span></div>
       <div class="connector" data-c="entitlements"></div>
-      <div class="node" data-node="supervisor"><div class="nlab">deterministic</div><div class="ntitle">Supervisor</div><div class="nsub">intent → lane(s)</div><span class="info">＋</span></div>
+      <div class="node" data-node="supervisor"><div class="nlab">fixed rules</div><div class="ntitle">Router</div><div class="nsub">sends the question to the right lane</div><span class="info">＋</span></div>
       <div class="connector" data-c="supervisor"></div>
       <div class="lanes">
-        <div class="node" data-node="payments"><div class="nlab">hybrid</div><div class="ntitle">Payments</div><div class="nsub">API + RAG + synthesis</div><span class="info">＋</span></div>
-        <div class="node" data-node="help"><div class="nlab">generative</div><div class="ntitle">Help &amp; Servicing</div><div class="nsub">RAG over docs</div><span class="info">＋</span></div>
+        <div class="node" data-node="payments"><div class="nlab">part rules, part AI</div><div class="ntitle">Payments</div><div class="nsub">real figures plus the bank's wording</div><span class="info">＋</span></div>
+        <div class="node" data-node="help"><div class="nlab">AI over documents</div><div class="ntitle">Help &amp; Servicing</div><div class="nsub">answers from product docs</div><span class="info">＋</span></div>
       </div>
       <div class="connector" data-c="lanes"></div>
-      <div class="node" data-node="critique"><div class="nlab">LLM-as-a-judge</div><div class="ntitle">Critique agent</div><div class="nsub">different model · pass / fail</div><span class="info">＋</span></div>
+      <div class="node" data-node="critique"><div class="nlab">LLM-as-a-judge</div><div class="ntitle">The check</div><div class="nsub">a second model · pass or fail</div><span class="info">＋</span></div>
       <div class="connector" data-c="critique"></div>
-      <div class="node" data-node="assembly"><div class="nlab">merge</div><div class="ntitle">Response assembly</div><div class="nsub">one coherent answer → chat</div><span class="info">＋</span></div>
+      <div class="node" data-node="assembly"><div class="nlab">combine</div><div class="ntitle">Final answer</div><div class="nsub">one answer, back to the chat</div><span class="info">＋</span></div>
     </div>
     <div class="rail">
       <div class="rlab">off the main path</div>
-      <div class="node side" data-node="disambig"><div class="nlab">70–85%</div><div class="ntitle">Disambiguation</div><div class="nsub">"did you mean…?"</div><span class="info">＋</span></div>
-      <div class="node side" data-node="canned"><div class="nlab">fail-closed sink</div><div class="ntitle">Canned response</div><div class="nsub">refuse, never guess</div><span class="info">＋</span></div>
-      <div class="node side" data-node="telemetry"><div class="nlab">passive</div><div class="ntitle">Telemetry</div><div class="nsub">audit · next eval set</div><span class="info">＋</span></div>
+      <div class="node side" data-node="disambig"><div class="nlab">70–85%</div><div class="ntitle">Ask first</div><div class="nsub">"did you mean…?"</div><span class="info">＋</span></div>
+      <div class="node side" data-node="canned"><div class="nlab">when anything fails</div><div class="ntitle">Safe refusal</div><div class="nsub">refuse, never guess</div><span class="info">＋</span></div>
+      <div class="node side" data-node="telemetry"><div class="nlab">in the background</div><div class="ntitle">Log</div><div class="nsub">audit trail · next round of tests</div><span class="info">＋</span></div>
     </div>
   </div>
 
@@ -268,20 +268,20 @@ footer .fl{font-family:var(--mono);font-size:12px;color:var(--ink-soft);opacity:
 <section class="block wrap">
   <div class="reveal">
     <div class="kicker">Why it matters</div>
-    <h2>Matching mechanism to risk</h2>
-    <p class="lead">The value isn't autonomy or cleverness. It's solving a real problem inside real constraints without ever risking a wrong answer.</p>
+    <h2>Match the tool to the risk</h2>
+    <p class="lead">It solves a real problem inside a bank's rules without risking a wrong answer.</p>
   </div>
   <div class="why">
-    <div class="w reveal"><div class="wl">Restraint</div><p>Least-agentic routing, deterministic data, refuse-over-guess. The discipline is in what it <em>doesn't</em> do.</p></div>
-    <div class="w reveal"><div class="wl">Tradeoffs, owned</div><p>A higher refusal rate, deterministic over agentic, no human on the live path — each the right trade for this environment.</p></div>
-    <div class="w reveal"><div class="wl">Honest edges</div><p>What we'd harden next: continuous calibration, deterministic figure rendering, judge-bias controls.</p></div>
+    <div class="w reveal"><div class="wl">Restraint</div><p>The router follows fixed rules. Figures come from the system of record. When the system isn't sure, it refuses.</p></div>
+    <div class="w reveal"><div class="wl">Tradeoffs</div><p>It refuses more often. It follows rules where it could improvise. No person reviews answers as they go out. Each is the right trade for a bank.</p></div>
+    <div class="w reveal"><div class="wl">What's not done</div><p>What I'd harden next: keep re-tuning the confidence thresholds, show figures without the AI touching them, and control for bias in the second model.</p></div>
   </div>
 </section>
 <section class="block wrap" id="references">
   <div class="reveal">
-    <div class="kicker">Grounded in</div>
+    <div class="kicker">Sources</div>
     <h2>References</h2>
-    <p class="lead">The architecture is validated against current research and standards — not asserted. Selected sources:</p>
+    <p class="lead">I checked the design against current research and standards. Selected sources:</p>
   </div>
   <div class="refs reveal">
     <a href="https://www.anthropic.com/research/building-effective-agents" target="_blank" rel="noopener"><span>↗</span>Anthropic — Building Effective Agents</a>
@@ -298,7 +298,7 @@ footer .fl{font-family:var(--mono);font-size:12px;color:var(--ink-soft);opacity:
 </section>
 </main>
 
-<footer class="wrap"><div class="fl">Built by Michael Cerpa · patterns are real, plumbing is simulated · <a href="https://mcerpa.com" style="color:inherit">← mcerpa.com</a></div></footer>
+<footer class="wrap"><div class="fl">Built by Michael Cerpa · The patterns are real. The demo plays back pre-written results, not live AI. · <a href="https://mcerpa.com" style="color:inherit">← mcerpa.com</a></div></footer>
 
 <div class="scrim" id="scrim"></div>
 <aside class="drawer" id="drawer" aria-hidden="true">
@@ -314,33 +314,33 @@ footer .fl{font-family:var(--mono);font-size:12px;color:var(--ink-soft);opacity:
 const REDUCE = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
 
 const NODES = {
-  chat:{lab:'overlay',title:'Chat UI',plain:'The assistant overlay where the user asks and the answer renders inline — no new tab, no system-switching.',ex:'A treasury analyst types "status of my wire to Acme Corp?" without leaving the page.',gl:[]},
-  orchestration:{lab:'control plane',title:'Orchestration',plain:'The control plane between the UI and the AI pipeline: routing, session state, response assembly, and logging every request. Not the AI itself.',ex:'Carries the ask through the pipeline and returns one assembled answer to the chat.',gl:['Orchestration layer','Context layer']},
-  intent:{lab:'LLM + confidence',title:'Intent classification',plain:'An LLM classifies the ask and returns a confidence score the router acts on: proceed, clarify, or refuse.',ex:'"status of my wire to Acme Corp" → intent: payment_status · confidence: 0.93',gl:['Intent classification','Confidence-driven routing']},
-  entitlements:{lab:'hard gate',title:'Entitlements check',plain:"A hard authorization gate that reuses the bank's existing engine. Data the user can't see never reaches synthesis.",ex:"Confirms this analyst may see Acme Corp's wire activity before anything is retrieved.",gl:['Entitlements check']},
-  supervisor:{lab:'deterministic',title:'Supervisor',plain:'A deterministic router: intent → the right domain lane (or both, for a compound ask). The least-agentic design that solves the problem.',ex:'payment_status → Payments lane.',gl:['Supervisor agent','Agent spectrum']},
-  payments:{lab:'hybrid',title:'Payments lane',plain:'Hybrid: a deterministic API is the source of truth for figures; RAG adds the bank’s vocabulary; the LLM only frames — it never computes the number.',ex:'API: {Acme Corp, $250,000.00, settled} → "Your $250,000 wire to Acme Corp settled yesterday."',gl:['RAG','Deterministic vs generative']},
-  help:{lab:'generative',title:'Help & Servicing lane',plain:'Fully generative over RAG of product docs — for "how does this work / where do I find X" questions.',ex:'"same-day ACH cutoff?" → "Submitted before 2:45pm ET, processed the same business day."',gl:['RAG','Vector store']},
-  critique:{lab:'LLM-as-a-judge',title:'Critique agent',plain:'An LLM-as-a-judge — a different model than the one that wrote the answer — scores it against a rubric. A fail routes to the canned response.',ex:'Checks the synthesized figure against the API source; the number and status match → pass.',gl:['LLM-as-a-judge','Evals']},
-  assembly:{lab:'merge',title:'Response assembly',plain:'Merges lane outputs into one coherent answer and returns it through orchestration to the chat.',ex:'For a compound ask, merges the wire status + the ACH explanation into one reply.',gl:['Orchestration layer']},
-  disambig:{lab:'70–85%',title:'Disambiguation',plain:'When confidence is middling (≈70–85%), the system asks a clarifying question instead of guessing.',ex:'"show me my transfers" (0.78) → "Wires, ACH, or internal transfers?"',gl:['Confidence-driven routing']},
-  canned:{lab:'fail-closed sink',title:'Canned response',plain:'The single safe landing for every failure — low confidence, a judge fail, or a downstream error. Never a hallucinated answer.',ex:'"I can’t help with that — here’s what I can do."',gl:[]},
-  telemetry:{lab:'passive',title:'Telemetry',plain:'Every request, refusal, and disambiguation is logged — for audit and as the dataset for the next tuning round. Passive, off the request path.',ex:'Logs the 0.78 disambiguation as a future eval case.',gl:['Evals']}
+  chat:{lab:'on the page',title:'Chat window',plain:'A chat window on the page the user is already on. They ask there and the answer appears there. No new tab, no switching systems.',ex:'A treasury analyst types "status of my wire to Acme Corp?" without leaving the page.',gl:[]},
+  orchestration:{lab:'orchestration',title:'Coordinator',plain:'The coordinator between the chat window and the AI. It routes each question, keeps track of the conversation, puts the answer together, and logs every request. It is not the AI.',ex:'Carries the question through each step and brings one answer back to the chat.',gl:['Orchestration layer','Context layer']},
+  intent:{lab:'intent',title:'What are they asking?',plain:'An AI model works out what the user is asking and says how sure it is. That score decides what happens next: answer, ask a question, or refuse.',ex:'"status of my wire to Acme Corp" → intent: payment_status · confidence: 0.93',gl:['Intent classification','Confidence-driven routing']},
+  entitlements:{lab:'entitlements',title:'Permissions check',plain:"A hard stop that uses the bank's existing permissions system. If the user isn't allowed to see something, the AI never gets it.",ex:"Confirms this analyst is allowed to see Acme Corp's wires before anything is looked up.",gl:['Entitlements check']},
+  supervisor:{lab:'fixed rules',title:'Router',plain:'A router that follows fixed rules. Each kind of question goes to its lane, or to both lanes if it has two parts. I gave the AI as little freedom here as the job allows.',ex:'payment_status → Payments lane.',gl:['Supervisor agent','Agent spectrum']},
+  payments:{lab:'part rules, part AI',title:'Payments lane',plain:'Part rules, part AI. The figures come straight from the bank’s system of record. A document search adds the bank’s own wording. The AI writes the sentence around the number. It never works out the number itself.',ex:'API: {Acme Corp, $250,000.00, settled} → "Your $250,000 wire to Acme Corp settled yesterday."',gl:['RAG','Deterministic vs generative']},
+  help:{lab:'AI over documents',title:'Help & Servicing lane',plain:'The AI answers from the bank’s product documents. This lane is for "how does this work" and "where do I find it" questions.',ex:'"same-day ACH cutoff?" → "Submitted before 2:45pm ET, processed the same business day."',gl:['RAG','Vector store']},
+  critique:{lab:'LLM-as-a-judge',title:'The check',plain:'A second AI model grades the first one’s answer against a checklist. It’s a different model on purpose, so it doesn’t favor its own work. If the answer fails, the user gets the safe refusal.',ex:'Compares the figure in the answer to the system of record. The number and status match, so it passes.',gl:['LLM-as-a-judge','Evals']},
+  assembly:{lab:'combine',title:'Final answer',plain:'Combines what the lanes produced into one answer and sends it back to the chat.',ex:'For a two-part question, it joins the wire status and the ACH explanation into one reply.',gl:['Orchestration layer']},
+  disambig:{lab:'70–85%',title:'Ask first',plain:'When the system is only fairly sure (about 70–85%), it asks a question instead of guessing.',ex:'"show me my transfers" (0.78) → "Wires, ACH, or internal transfers?"',gl:['Confidence-driven routing']},
+  canned:{lab:'when anything fails',title:'Safe refusal',plain:'Every failure ends here: low confidence, a failed check, or an error further down. The user gets a plain refusal. They never get a made-up answer.',ex:'"I can’t help with that. Here’s what I can do."',gl:[]},
+  telemetry:{lab:'in the background',title:'Log',plain:'Every question, refusal and follow-up is logged. The log is the audit trail, and it becomes the test set for the next round of tuning. It runs in the background and never slows an answer.',ex:'Logs the 0.78 follow-up as a future test case.',gl:['Evals']}
 };
 
 const PATHS = {
   wire:{steps:['chat','orchestration','intent','entitlements','supervisor','payments','critique','assembly'],
-        caps:['User asks, inline','Orchestration takes it','intent: payment_status · 0.93 → proceed','Entitled? yes','Route → Payments','API is source of truth; LLM only frames','Judge checks the figure → pass','One answer, back to chat'],
+        caps:['User asks, inline','The coordinator takes it','intent: payment_status · 0.93 → proceed','Allowed to see it? yes','Route → Payments','Figures from the system of record. The AI only writes the sentence.','The second model checks the figure: pass','One answer, back to chat'],
         outcome:{kind:'answer',label:'Delivered',text:'Your $250,000 wire to Acme Corp settled yesterday (Jun 6).'}},
   transfers:{steps:['chat','orchestration','intent','disambig'],
-        caps:['User asks, inline','Orchestration takes it','intent: transfers · 0.78','70–85% → ask, don’t guess'],
-        outcome:{kind:'clarify',label:'Disambiguation',q:'confidence 0.78 — in the 70–85% band',text:'Did you mean wires, ACH, or internal transfers?'}},
+        caps:['User asks, inline','The coordinator takes it','intent: transfers · 0.78','70–85% sure: ask, don’t guess'],
+        outcome:{kind:'clarify',label:'Disambiguation',q:'confidence 0.78, inside the 70–85% band',text:'Did you mean wires, ACH, or internal transfers?'}},
   refinance:{steps:['chat','orchestration','intent','canned'],
-        caps:['User asks, inline','Orchestration takes it','intent: out_of_scope · 0.41','<70% → fail-closed'],
-        outcome:{kind:'refuse',label:'Refused · fail-closed',q:'confidence 0.41 — below the floor',text:"I can’t help with that — here’s what I can do: payment status, account details, and product questions."}},
+        caps:['User asks, inline','The coordinator takes it','intent: out_of_scope · 0.41','Under 70%: refuse'],
+        outcome:{kind:'refuse',label:'Refused',q:'confidence 0.41, below the minimum',text:"I can't help with that. Here's what I can do: payment status, account details and product questions."}},
   judge:{steps:['chat','orchestration','intent','entitlements','supervisor','payments','critique','canned'],
-        caps:['User asks, inline','Orchestration takes it','intent: payment_status · 0.91 → proceed','Entitled? yes','Route → Payments','Draft answer synthesized','Judge catches a mismatch → fail','Held back, not shown'],
-        outcome:{kind:'refuse',label:'Refused · judge caught it',q:'critique agent failed the draft',text:"A draft answer didn’t pass the accuracy check, so it was held back rather than risk a wrong number."}}
+        caps:['User asks, inline','The coordinator takes it','intent: payment_status · 0.91 → proceed','Allowed to see it? yes','Route → Payments','Draft answer written','The second model catches a mismatch: fail','Held back, not shown'],
+        outcome:{kind:'refuse',label:'Refused · the check caught it',q:'the second model failed the draft',text:"The draft answer didn't pass the accuracy check, so the system held it back instead of risking a wrong number."}}
 };
 
 const CABOVE={orchestration:'chat',intent:'orchestration',entitlements:'intent',supervisor:'entitlements',payments:'supervisor',help:'supervisor',critique:'lanes',assembly:'critique'};
